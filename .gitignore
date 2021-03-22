@@ -1,0 +1,10 @@
+*
+!**/*
+!*.py
+!*.md
+!*.txt
+!*.jpynb
+!*.png
+!*.jpg
+.ipynb_checkpoints/
+__pycache__/
