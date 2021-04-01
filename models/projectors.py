@@ -6,9 +6,10 @@ def get_linear_projection_block_layers(
         d_out,
         dropout_rate=0.1,
         normalize=False,
-        activation=True):
+        activation=True,
+        bias=False):
     layers = []
-    layers.append(torch.nn.Linear(d_in, d_out))
+    layers.append(torch.nn.Linear(d_in, d_out, bias=False))
     if normalize:
         layers.append(torch.nn.BatchNorm1d(d_out))
     if activation:

@@ -3,7 +3,7 @@ import torch
 
 class BarlowTwins(torch.nn.Module):
     def __init__(self, backbone, projector, loss_param_scale, loss_param_lmbda):
-        super().__init__()
+        super(BarlowTwins, self).__init__()
         self.backbone = backbone
         self.projector = projector
 
@@ -20,6 +20,7 @@ class BarlowTwins(torch.nn.Module):
 
         # emprical cross-correlation matrix
         c = self.bn(z1).T @ self.bn(z2)
+        c = c / x1.shape[0]
 
         loss = self.loss(c)
         return loss
