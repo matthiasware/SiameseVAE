@@ -110,3 +110,29 @@ def down_valid_linear(
 
     acc_avg = acc / total * 100
     return acc_avg
+
+
+def std_cov_valid(data_loader, model, device):
+    model.eval()
+    #
+    outs = []
+    targets = []
+    #
+    with tqdm(total=len(data_loader), desc='Down STD') as p_bar:
+        with torch.no_grad():
+            for data, target in data_loader:
+                out = model(data.to(device))
+                outs.append(out.detach().cpu().numpy())
+                targets.append(target.cpu().numpy())
+                #
+                p_bar.update()
+
+        x = np.concatenate(outs)
+        #
+        norms = np.linalg.norm(x, axis=1)
+        z_bars = x / norms[:, None]
+        std = z_bars.std(axis=0).mean()
+
+        cov = np.cov(x.T)
+        p_bar.set_postfix({"STD": std})
+    return std, cov
