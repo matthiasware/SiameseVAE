@@ -21,12 +21,19 @@ def save_checkpoint(
         model, optimizer, lr_scheduler,
         config, epoch, step, p_checkpoint):
     model_state_dict = model.state_dict()
-
+    if optimizer is None:
+        optimizer_state_dict = None
+    else:
+        optimizer_state_dict = optimizer.state_dict()
+    if lr_scheduler is None:
+        lr_state_dict = None
+    else:
+        lr_state_dict = lr_scheduler.state_dict()
     torch.save({
         'model_state_dict': model_state_dict,
         'global_epoch': epoch,
         'global_step': step,
         'config': config,
-        'optimizer_state_dict': optimizer.state_dict(),
-        'lr_scheduler_state_dict': lr_scheduler.state_dict(),
+        'optimizer_state_dict': optimizer_state_dict,
+        'lr_scheduler_state_dict': lr_state_dict,
     }, p_checkpoint)

@@ -192,6 +192,8 @@ def split_to_train_valid(split):
 
 def get_dataset(dataset, p_data, transform, target_transform=None, split='train', download=False):
     if dataset == 'mscoco2017':
+        if target_transform is None:
+            target_transform = COCOVisionDataset.custom_transform_labels
         ds = COCOVisionDataset(
             p_base=p_data,
             train=split_to_train_valid(split),
